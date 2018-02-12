@@ -1,10 +1,19 @@
 class AdjacencyList{
     LinkedList[] l;
     
-    AdjacencyList(int n){
+    AdjacencyList(String[] s1, String[] s2){
+        int n = s1.length;
         l = new LinkedList[n];
         for(int i = 0; i < n; i++){
             l[i] = new LinkedList();
+        }
+        for(int i = 0; i < n; i++){
+            l[i].addFirst(new Node(s1[i]));
+            for(int j = 0; j < s2.length; j++){
+                if(s1[i].equals(s2[j].substring(0,1))){
+                    l[i].insert(new Node(s2[j].substring(1,2)));
+                }
+            }
         }
     }
     
@@ -12,6 +21,10 @@ class AdjacencyList{
         for(LinkedList each: l){
             each.display();
         }
+    }
+    
+    void BFS(){
+        
     }
     
     LinkedList[] transpose(LinkedList[] list){
