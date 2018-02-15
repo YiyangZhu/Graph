@@ -3,12 +3,16 @@ import java.util.ArrayList;
 
 class Node{
     String key;
-    Node next;
-    Node previous;
     String color;
     int d;
     Node pi;
     List<Node> outgoings = new ArrayList<>();
+    List<Node> newOutgoings = new ArrayList<>();
+    int dt;
+    int ft;
+    
+    Node(){
+    }
     
     Node(String k){
         key = k;
@@ -16,6 +20,12 @@ class Node{
     
     void displayOutgoings(){
         for(Node n: outgoings){
+            System.out.print(n.key+" -> ");
+        }
+    }
+    
+    void displayNewOutgoings(){
+        for(Node n: newOutgoings){
             System.out.print(n.key+" -> ");
         }
     }
