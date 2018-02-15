@@ -9,6 +9,7 @@ class GraphT{
     Map<String, Node> m;
     int time;
     LinkedList<Node> l = new LinkedList<>();
+    List<Node> roots = new ArrayList<>();
     
     GraphT(String[] s1, String[] s2){
         allNodes = new ArrayList<>();
@@ -119,9 +120,7 @@ class GraphT{
     void dfsVisit(Node u){
         time++;
         u.dt = time;
-        //System.out.print("(");
         u.color = "gray";
-        //System.out.print(u.key);
         for(Node v: u.outgoings){
             if(v.color == "white"){
                 v.pi = u;
@@ -132,8 +131,6 @@ class GraphT{
         u.ft = time;
         l.addFirst(u);
         u.color = "black";
-        //System.out.print(u.key);
-        //System.out.print(")");
     }
     
     void displayTime(){
@@ -153,6 +150,63 @@ class GraphT{
             n.displayOutgoings();
             System.out.println("\t\tdiscover time:"+n.dt+"\tfinish time:"+n.ft);
             
+        }
+    }
+    
+    void stronglyConnectedComponents(){
+        dfs();
+        transpose2();
+        
+        for(Node n: l){
+            n.color = "white";
+            n.pi = null;
+        }
+        time = 0;
+        for(Node n: l){
+            if(n.color == "white"){
+                roots.add(n);
+                dfsVisit2(n);
+            }
+        }
+    }
+    
+    void dfsVisit2(Node u){
+        time++;
+        u.dt = time;
+        u.color = "gray";
+        for(Node v: u.newOutgoings){
+            if(v.color == "white"){
+                v.pi = u;
+                dfsVisit2(v);
+            }
+        }
+        time++;
+        u.ft = time;
+        u.color = "black";
+    }
+    
+    void transpose2(){
+        for(Node n: l){
+            for(Node j: n.outgoings){
+                j.newOutgoings.add(n);
+            }
+        }
+    }
+    
+    void displaySCC(){
+        for(Node n: roots){
+            for(Node n2: l){
+                if(n2.dt > n.dt && n2.ft < n.ft){
+                    n.stronglyCC.add(n2);
+                }
+            }
+        }
+        for(Node n: roots){
+            System.out.print("Tree root is: \""+n.key+"\" discover time: "+n.dt+" finish time:"+n.ft);
+            for(Node n2: n.stronglyCC){
+                System.out.print("     \""+n2.key+"\" discover time: "+n2.dt+" finish time:"+n2.ft);
+            }
+            System.out.println();
         }
     }
 }

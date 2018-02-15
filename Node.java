@@ -10,6 +10,7 @@ class Node{
     List<Node> newOutgoings = new ArrayList<>();
     int dt;
     int ft;
+    List<Node> stronglyCC = new ArrayList<>();
     
     Node(){
     }
